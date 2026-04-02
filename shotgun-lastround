@@ -1,0 +1,22 @@
+class_name Shotgun extends Node
+
+const BASE_DAMAGE := 80.0
+const CRITICAL_MULTIPLIER := 5.0
+const LAST_ROUND_MULTIPLIER := 5.5
+
+var current_ammo := 6
+var has_critical_buff := false
+
+func _ready() -> void:
+	var last_round_damage := calculate_damage(true)
+	print("Last round damage is: ", last_round_damage)
+
+
+func calculate_damage(is_last_round: bool) -> int:
+	var damage := BASE_DAMAGE
+	if is_last_round:
+		damage * LAST_ROUND_MULTIPLIER
+	if has_critical_buff:
+		damage * CRITICAL_MULTIPLIER
+	return damage
+	
