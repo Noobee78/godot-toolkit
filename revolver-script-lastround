@@ -1,0 +1,32 @@
+class_name Revolver extends Node
+
+const BASE_DAMAGE := 45
+const CRITICAL_MULTIPLIER := 2.0
+const LAST_ROUND_MULTIPLIER := 2.5
+
+var current_ammo := 6
+var has_critical_buff := false
+
+
+func calculate_damage(is_last_round: bool) -> int:
+	var damage : float = BASE_DAMAGE
+	if is_last_round:
+		damage *= (LAST_ROUND_MULTIPLIER) 
+	if has_critical_buff:
+		damage *= (CRITICAL_MULTIPLIER ) 
+	return damage
+		
+func _ready() -> void:
+	# Test 1: Normal shot
+	var normal_damage := calculate_damage(false)
+	print("Normal damage: ", normal_damage) # should print 45
+	# Test 2: Last Round (no crit)
+	var last_round_damage := calculate_damage(true)
+	print("Last round damage: ", last_round_damage) # should print 112
+	# Test 3: Normal shot with critical buff
+	has_critical_buff = true
+	var crit_damage := calculate_damage(false)
+	print("Critical damage:", crit_damage) # should print 90
+	# Test 4: Last round WITH critical buff
+	var last_round_crit := calculate_damage(true)
+	print("Last round + crit:", last_round_crit) # should print 225
